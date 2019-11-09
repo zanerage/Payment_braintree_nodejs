@@ -1,6 +1,7 @@
 package com.mario_antolovic.payment_braintree_nodejs.Retrofit
 
 import com.mario_antolovic.payment_braintree_nodejs.Model.BraintreeToken
+import com.mario_antolovic.payment_braintree_nodejs.Model.BraintreeTransaction
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
