@@ -72,16 +72,16 @@ class MainActivity : AppCompatActivity() {
         if (requestCode==REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 val result = data!!.getParcelableExtra<DropInResult>(DropInResult.EXTRA_DROP_IN_RESULT)
-                val nonce = result.paymentMethodNonce
+                val nonce = result.paymentMethodNonce!!.nonce
                 if (!TextUtils.isEmpty(edt_amount.text.toString())) {
                     compositeDisposable.add(myAPI.submitPayment(edt_amount.text.toString(),
-                        nonce.toString())
+                        nonce)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe ({
                             t:BraintreeTransaction? ->
                             if (t!!.succcess) {
-                                Toast.makeText(this@MainActivity,"" + t.transaction.id,Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@MainActivity,"" + t.transaction!!.id,Toast.LENGTH_SHORT).show()
                             }
                         },{t:Throwable? -> Toast.makeText(this@MainActivity,"" + t!!.message,Toast.LENGTH_SHORT).show()}))
                 }
