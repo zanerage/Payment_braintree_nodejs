@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import com.braintreepayments.api.dropin.DropInRequest
 import com.braintreepayments.api.dropin.DropInResult
+import com.mario_antolovic.payment_braintree_nodejs.Model.BraintreeTransaction
 import com.mario_antolovic.payment_braintree_nodejs.Retrofit.IBraintreeAPI
 import com.mario_antolovic.payment_braintree_nodejs.Retrofit.RetrofitClient
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -74,7 +75,15 @@ class MainActivity : AppCompatActivity() {
                 val nonce = result.paymentMethodNonce
                 if (!TextUtils.isEmpty(edt_amount.text.toString())) {
                     compositeDisposable.add(myAPI.submitPayment(edt_amount.text.toString(),
-                        nonce))
+                        nonce.toString())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe ({
+                            t:BraintreeTransaction? ->
+                            if (t!!.succcess) {
+                                Toast.makeText(this@MainActivity,"" + t.transaction.id,Toast.LENGTH_SHORT).show()
+                            }
+                        },{t:Throwable? -> Toast.makeText(this@MainActivity,"" + t!!.message,Toast.LENGTH_SHORT).show()}))
                 }
 
             }
