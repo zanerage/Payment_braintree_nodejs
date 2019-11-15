@@ -11,7 +11,7 @@ object RetrofitClient {
     get() {
         if (ourInstantce == null)
             ourInstantce = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:3000/")
+                .baseUrl("http://10.0.2.0:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
